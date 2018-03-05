@@ -158,6 +158,44 @@ def flip_vertical_axis(matrix):
             j = j + 1
         i = i + 1
 
+    return matrix
+
+
+def has_pair_with_sum_already_sorted(array, number):
+    """
+    Runtime complexity: O(n)
+    :param array:
+    :param number:
+    :return:
+    """
+    low = 0
+    high = len(array) - 1
+    while low < high:
+        sum = array[low] + array[high]
+        if sum == number:
+            return (array[low], array[high])
+        elif sum < number:
+            low += 1
+        elif sum > number:
+            high -= 1
+    return None
+
+
+def has_pair_with_sum_unsorted(array, number):
+    """
+    Runtime complexity: O(n)
+    Space complexity: O(n)
+    :param array:
+    :param number:
+    :return:
+    """
+    complements = set()
+    for value in array:
+        if value in complements:
+            return True
+        complements.add(number - value)
+    return False
+
 
 if __name__ == "__main__":
     assert [1, 5] == find_duplicates_in_list_sorted([1, 2, 76, 32, 45, 1, 5, 4, 9, 5])
@@ -193,3 +231,9 @@ if __name__ == "__main__":
 
     assert [[0, 1], [0, 1]] == flip_vertical_axis_built_in_reversed([[1, 0], [1, 0]])
     assert [[0, 1], [0, 1]] == flip_vertical_axis([[1, 0], [1, 0]])
+
+    assert has_pair_with_sum_already_sorted([1, 2, 3, 9], 8) is None
+    assert has_pair_with_sum_already_sorted([1, 2, 4, 4], 8) == (4, 4)
+
+    assert has_pair_with_sum_unsorted([1, 2, 3, 9], 8) is False
+    assert has_pair_with_sum_unsorted([1, 2, 4, 4], 8) is True
